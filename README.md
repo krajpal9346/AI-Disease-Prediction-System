@@ -101,6 +101,18 @@ DISEASE_PREDICTION_SYSTEM/
    - Visual confidence bars improve readability
 
 
+## 📸 Project Screenshots
+
+### 🏠 Home Page
+![Home Page](Screenshots/Home.png)
+
+### 🔍 Symptom Selection
+![Symptom Selection](Screenshots/symptoms.png)
+
+### 📊 Prediction Results
+![Prediction Results](Screenshots/Result.png)
+
+
 ## How to Run the Project Locally
 
 1. Clone the Repository
