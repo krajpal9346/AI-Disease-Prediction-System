@@ -107,18 +107,18 @@ DISEASE_PREDICTION_SYSTEM/
 git clone https://github.com/your-username/ai-disease-prediction-system.git
 cd ai-disease-prediction-system
 
-2. Install Dependencies
+3. Install Dependencies
 pip install -r requirements.txt
 
-3. Train the Model (Once)
+4. Train the Model (Once)
 cd model
 python train_model.py
 
-4. Run the Application
+5. Run the Application
 cd ..
 python app.py
 
-5. Open in Browser
+6. Open in Browser
 http://127.0.0.1:5000
 
 
