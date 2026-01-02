@@ -104,8 +104,8 @@ DISEASE_PREDICTION_SYSTEM/
 ## How to Run the Project Locally
 
 1. Clone the Repository
-git clone https://github.com/your-username/ai-disease-prediction-system.git
-cd ai-disease-prediction-system
+- git clone https://github.com/your-username/ai-disease-prediction-system.git
+- cd ai-disease-prediction-system
 
 3. Install Dependencies
 pip install -r requirements.txt
@@ -125,36 +125,36 @@ http://127.0.0.1:5000
 **Sample Symptoms for Testing**
 
 Example:
-high_fever
-headache
-joint_pain
-nausea
-Expected Output:
+- high_fever
+- headache
+- joint_pain
+- nausea
 
-Dengue        ~75%
-Viral Fever  ~18%
-Malaria      ~12%
+Expected Output:
+- Dengue        ~75%
+- Viral Fever  ~18%
+- Malaria      ~12%
 
 
 **Model Performance**
-Algorithm: Random Forest Classifier
-Handles multi-class classification efficiently
-Trained on full Kaggle dataset
-Evaluated using separate testing data
+- Algorithm: Random Forest Classifier
+- Handles multi-class classification efficiently
+- Trained on full Kaggle dataset
+- Evaluated using separate testing data
 
 
 **Future Enhancements**
-Disease descriptions & precautions
-Severity level indicator
-Dark mode UI
-Voice-based symptom input
-Online deployment (Render / Railway)
+- Disease descriptions & precautions
+- Severity level indicator
+- Dark mode UI
+- Voice-based symptom input
+- Online deployment (Render / Railway)
 
 **Use Cases**
-College minor/major project
-Machine Learning portfolio project
-Resume & GitHub showcase
-Web + ML integration demonstration
+- College minor/major project
+- Machine Learning portfolio project
+- Resume & GitHub showcase
+- Web + ML integration demonstration
 
 **Disclaimer**
 This system is intended only for educational and learning purposes.
