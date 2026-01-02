@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Disease Prediction</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<div class="app-container">
+    <div class="card">
+        <h1>🧠 AI Disease Prediction</h1>
+        <p class="subtitle">Select symptoms to predict possible diseases</p>
+
+        <!-- Search -->
+        <input 
+            type="text" 
+            id="symptomSearch" 
+            placeholder="Search symptoms (e.g. fever, headache)"
+            autocomplete="off"
+        >
+
+        <!-- Suggestions -->
+        <div id="suggestions" class="suggestions"></div>
+
+        <!-- Selected Symptoms -->
+        <div id="selectedSymptoms" class="chips"></div>
+
+        <!-- Predict Button -->
+        <button id="predictBtn" onclick="predictDisease()" disabled>
+            🔍 Predict Disease
+        </button>
+
+        <!-- Results -->
+        <div id="results" class="results"></div>
+
+        <p class="disclaimer">
+            ⚠️ Educational purpose only. Not a substitute for medical advice.
+        </p>
+    </div>
+</div>
+
+<!-- Jinja-safe data -->
+<script type="application/json" id="symptoms-data">
+    {{ symptoms | tojson | safe }}
+</script>
+
+<script>
+const ALL_SYMPTOMS = JSON.parse(
+    document.getElementById("symptoms-data").textContent
+);
+
+let selectedSymptoms = [];
+
+const searchBox = document.getElementById("symptomSearch");
+const suggestions = document.getElementById("suggestions");
+const chips = document.getElementById("selectedSymptoms");
+const predictBtn = document.getElementById("predictBtn");
+const resultsDiv = document.getElementById("results");
+
+searchBox.addEventListener("input", () => {
+    suggestions.innerHTML = "";
+    const value = searchBox.value.toLowerCase();
+    if (!value) return;
+
+    ALL_SYMPTOMS
+        .filter(s => s.toLowerCase().includes(value))
+        .slice(0, 8)
+        .forEach(symptom => {
+            const div = document.createElement("div");
+            div.className = "suggestion-item";
+            div.innerText = symptom.replaceAll("_", " ");
+            div.onclick = () => addSymptom(symptom);
+            suggestions.appendChild(div);
+        });
+});
+
+function addSymptom(symptom) {
+    if (!selectedSymptoms.includes(symptom)) {
+        selectedSymptoms.push(symptom);
+        renderChips();
+    }
+    searchBox.value = "";
+    suggestions.innerHTML = "";
+}
+
+function renderChips() {
+    chips.innerHTML = "";
+    selectedSymptoms.forEach(symptom => {
+        const chip = document.createElement("span");
+        chip.className = "chip";
+        chip.innerHTML = `
+            ${symptom.replaceAll("_", " ")}
+            <b onclick="removeSymptom('${symptom}')">×</b>
+        `;
+        chips.appendChild(chip);
+    });
+    predictBtn.disabled = selectedSymptoms.length === 0;
+}
+
+function removeSymptom(symptom) {
+    selectedSymptoms = selectedSymptoms.filter(s => s !== symptom);
+    renderChips();
+}
+
+function predictDisease() {
+    resultsDiv.innerHTML = "<p class='loading'>Analyzing symptoms...</p>";
+
+    fetch("/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ symptoms: selectedSymptoms })
+    })
+    .then(res => res.json())
+    .then(data => {
+        resultsDiv.innerHTML = "<h3>Possible Diseases</h3>";
+
+        if (data.length === 0) {
+            resultsDiv.innerHTML += "<p>No disease above 10% confidence.</p>";
+            return;
+        }
+
+        data.forEach(d => {
+            resultsDiv.innerHTML += `
+                <div class="result-item">
+                    <div class="result-header">
+                        <span>${d.disease}</span>
+                        <span>${d.confidence}%</span>
+                    </div>
+                    <div class="bar">
+                        <div class="fill" style="width:${d.confidence}%"></div>
+                    </div>
+                </div>
+            `;
+        });
+    });
+}
+</script>
+
+</body>
+</html>
